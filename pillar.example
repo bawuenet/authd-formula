@@ -1,0 +1,24 @@
+authd:
+  lookup:
+    package: authd
+    service: auth.socket
+    unit: auth@
+    path: /usr/sbin/in.authd
+
+  # Timeout in seconds
+  timeout: 60
+
+  # Send more helpful error messages for rare errors
+  extended_errors: True
+
+  # False: Reply with UNIX OS, True: Use OS gathered from uname, String: Return string as OS value
+  uname: True
+
+  # False: return plaintext username, True: Encrypt the username with AES-128-CBC, String: Cipherspec
+  crypt_username: True
+
+  # True: Hide users with ~/[.noident] file, False: Do not hide users, String: Hide users with string value file
+  noident: .hideident
+
+  # True: Show users with ~/[.ident] file, False: Do not show users, String: Show users with string value file
+  ident: False
