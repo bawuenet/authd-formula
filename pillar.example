@@ -3,6 +3,7 @@ authd:
     package: authd
     service: auth.socket
     unit: auth@
+    user: ident
     path: /usr/sbin/in.authd
 
   # Timeout in seconds
