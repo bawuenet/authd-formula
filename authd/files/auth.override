@@ -2,32 +2,40 @@
 {% set cfg_authd = pillar.get('authd', {}) -%}
 {% set options = [authd.path] -%}
 
-{%- macro add_option(name, param, default_value, style) -%}
-{% if style == 'shortappend' %}
-{% do options.append('-{}{}'.format(param, cfg_authd.get(name, default_value))) -%}
-{% elif style == 'longbool' and cfg_authd.get(name, default_value) -%}
-{% do options.append('--{}'.format(param)) -%}
-{% elif style == 'shortbool' and cfg_authd.get(name, default_value) -%}
+{#- Macro definition to format commandline options -#}
+{% macro add_option(name, param, default_value, style) -%}
+{% if style == 'shortbool' and cfg_authd.get(name, default_value) -%}
 {% do options.append('-{}'.format(param)) -%}
 {% elif style == 'longbool' and cfg_authd.get(name, default_value) -%}
 {% do options.append('--{}'.format(param)) -%}
 {% elif style == 'shortdefault' and cfg_authd.get(name, default_value) == True -%}
 {% do options.append('-{}'.format(param)) -%}
 {% elif style == 'shortdefault' and cfg_authd.get(name, default_value) not in (True, False) -%}
-{% do options.append('-{}{}'.format(param, cfg_authd.get(name))) -%}
+{% do options.append('-{}{}'.format(param, cfg_authd.get(name, default_value))) -%}
 {% elif style == 'longdefault' and cfg_authd.get(name, default_value) == True -%}
 {% do options.append('--{}'.format(param)) -%}
 {% elif style == 'longdefault' and cfg_authd.get(name, default_value) not in (True, False)  -%}
-{% do options.append('--{}={}'.format(param, cfg_authd.get(name))) -%}
+{% do options.append('--{}={}'.format(param, cfg_authd.get(name, default_value))) -%}
 {% endif -%}
-{%- endmacro -%}
+{% endmacro -%}
 
-{%- do add_option('timeout', 't', 60, 'shortappend') -%}
+{#- Build the option list -#}
+{% do add_option('timeout', 't', 60, 'shortdefault') -%}
 {% do add_option('extended_errors', 'xerror', True, 'longbool') -%}
 {% do add_option('uname', 'os', True, 'longdefault') -%}
 {% do add_option('crypt_usernames', 'E', True, 'shortdefault') -%}
 {% do add_option('noident', 'N', False, 'shortdefault') -%}
 {% do add_option('ident', 'ident', False, 'longdefault') -%}
+{% do add_option('username', 'username', False, 'longdefault') -%}
+{% do add_option('pwdfile', 'passwd', False, 'longdefault') -%}
+{% do add_option('resolve', 'resolve', False, 'longbool') -%}
+{% do add_option('verbose', 'verbose', False, 'longbool') -%}
+{% do add_option('no_errors', 'abrupt', False, 'longbool') -%}
+{% do add_option('no_error_detail', 'e', False, 'shortbool') -%}
+{% do add_option('uid_only', 'n', False, 'shortbool') -%}
+{% do add_option('other_os', 'o', False, 'shortbool') -%}
+{% do add_option('gecos', 'fn', False, 'longdefault') -%}
+{% do add_option('charset', 'codeset', False, 'longdefault') -%}
 
 #
 # This file is salt managed

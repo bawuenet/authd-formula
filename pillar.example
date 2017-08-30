@@ -17,8 +17,41 @@ authd:
   # False: return plaintext username, True: Encrypt the username with AES-128-CBC, String: Cipherspec
   crypt_username: True
 
+  # Use /etc/ident.key to read the crypto key from. Default if unspecified is /etc/ident.key
+  pwdfile: /etc/ident.key
+
+  # Cryptokey/Passphrase to use for username encryption. If specified, it'll be rolled out to the pwdfile by salt.
+  passphrase: MySemiSecurePassPhraseThatWillBeStoredPlaintextOnTheMachine
+
   # True: Hide users with ~/[.noident] file, False: Do not hide users, String: Hide users with string value file
   noident: .hideident
 
   # True: Show users with ~/[.ident] file, False: Do not show users, String: Show users with string value file
   ident: False
+
+  # False: Show real username, True: show nobody as user, String: Show string value as connection owner
+  username: False
+
+  # Be verbose when answering, add timestamp and ip addresses as well.
+  verbose: False
+
+  # Use DNS and Service name resolving for verbose answers. Will slow down the service
+  resolve: False
+
+  # Close connection instead of returning an error
+  no_errors: False
+
+  # Return UNKNOWN-ERROR instead of more detailed INVALID-PORT, NO-USER, and HIDDEN-USER messages
+  no_error_detail: False
+
+  # Only return numerical user IDs instead of usernames
+  uid_only: False
+
+  # Instead of the real operating system return only OTHER.
+  other_os: False
+
+  # True: Return full gecos field, False: Only username, integer: Number of gecos fields returned starting at 1
+  gecos: False
+
+  # In case a username or gecos entry is outside the ASCII range, define the charset to indicate to the remote client.
+  charset: UTF-8
