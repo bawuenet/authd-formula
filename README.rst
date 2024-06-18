@@ -6,6 +6,8 @@ A saltstack formula for authd. Authd is a simple RFC 1413 ident protocol
 daemon that is commonly available for the Red Hat family of operating
 systems.
 
+The upstream project for authd is at <https://github.com/InfrastructureServices/authd>.
+
 .. note::
 
     See the full `Salt Formulas installation and usage instructions
