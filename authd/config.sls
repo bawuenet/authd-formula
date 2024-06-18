@@ -11,6 +11,8 @@ authd_passwd_file:
     - user: {{ authd.user }}
     - group: {{ authd.user }}
     - mode: 0600
+    - require:
+       - pkg: {{ authd.package }}
 {% endif -%}
 
 authd_systemd_override:
@@ -20,8 +22,11 @@ authd_systemd_override:
     - template: jinja
     - makedirs: True
     - onchanges_in:
-      - module: authd_systemd_reload
+        - module: authd_systemd_reload
+    - require:
+       - pkg: {{ authd.package }}
 
 authd_systemd_reload:
   module.run:
     - name: service.systemctl_reload
+    - kwargs: {}
